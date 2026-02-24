@@ -1,6 +1,6 @@
 # hackathon-storage-lib
 
-Biblioteca Java para compartilhamento de lógica de storage local entre microsserviços.
+Biblioteca Java para compartilhamento de logica de storage local entre microsservicos.
 
 ## Requisitos
 
@@ -13,21 +13,51 @@ Biblioteca Java para compartilhamento de lógica de storage local entre microsse
 mvn clean test
 ```
 
-## Como usar
+## Publicacao Maven
 
-### 1. Adicione a dependência no seu microsserviço
+A lib esta configurada para publicar no GitHub Packages Maven Registry via `mvn deploy`.
 
-Publique a lib no seu repositório Maven interno e adicione:
+### Configuracoes do repositorio
+
+1. Em `Settings > Actions > General`, habilite permissao de escrita para `GITHUB_TOKEN`.
+2. Em `Settings > Packages`, permita publicacao para o repositorio.
+
+### Pipeline de publicacao
+
+- Arquivo: `.github/workflows/publish.yml`
+- Trigger: push de tag no formato `v*` (exemplo: `v1.0.0`)
+- Publicacao: executa `mvn clean deploy`
+
+Exemplo de release:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+### Dependencia nos microsservicos
 
 ```xml
 <dependency>
     <groupId>br.com.fiap</groupId>
     <artifactId>hackathon-storage-lib</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
-### 2. Configure como bean no Spring
+Se quiser usar snapshots:
+
+```xml
+<dependency>
+    <groupId>br.com.fiap</groupId>
+    <artifactId>hackathon-storage-lib</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+</dependency>
+```
+
+## Como usar
+
+### 1. Configure como bean no Spring
 
 ```java
 import br.com.fiap.storage.VideoStorageService;
@@ -47,7 +77,7 @@ public class StorageConfig {
 }
 ```
 
-### 3. Interface disponível
+### 2. Interface disponivel
 
 ```java
 public interface VideoStorageService {
@@ -56,7 +86,7 @@ public interface VideoStorageService {
 }
 ```
 
-## Exceções
+## Excecoes
 
 - `FileStorageException`
 - `FileRetrievalException`
