@@ -11,4 +11,6 @@ public interface VideoStorageService {
     String store(InputStream inputStream, String fileName) throws FileStorageException;
 
     InputStream retrieve(String storagePath) throws StoredFileNotFoundException, FileRetrievalException;
+
+    void delete(String storagePath);
 }

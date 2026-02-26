@@ -1,6 +1,7 @@
 package br.com.fiap.storage.local;
 
 import br.com.fiap.storage.VideoStorageService;
+import br.com.fiap.storage.exception.FileDeletionException;
 import br.com.fiap.storage.exception.FileRetrievalException;
 import br.com.fiap.storage.exception.FileStorageException;
 import br.com.fiap.storage.exception.StoredFileNotFoundException;
@@ -60,6 +61,26 @@ public class LocalVideoStorageService implements VideoStorageService {
             throw e;
         } catch (IOException e) {
             throw new FileRetrievalException("Could not retrieve file: " + storagePath, e);
+        }
+    }
+
+    @Override
+    public void delete(String storagePath) {
+        Objects.requireNonNull(storagePath, "storagePath must not be null");
+
+        try {
+            Path filePath = Paths.get(storagePath).toAbsolutePath().normalize();
+            Path normalizedBase = storageBaseDir.toAbsolutePath().normalize();
+
+            if (!filePath.startsWith(normalizedBase)) {
+                throw new FileDeletionException("Path is outside storage directory: " + storagePath);
+            }
+
+            Files.deleteIfExists(filePath);
+        } catch (FileDeletionException e) {
+            throw e;
+        } catch (IOException e) {
+            throw new FileDeletionException("Could not delete file: " + storagePath, e);
         }
     }
 }
