@@ -56,9 +56,7 @@ public class LocalVideoStorageService implements VideoStorageService {
             if (!Files.exists(filePath)) {
                 throw new StoredFileNotFoundException("File not found at path: " + storagePath);
             }
-            return Files.newInputStream(filePath);
-        } catch (StoredFileNotFoundException e) {
-            throw e;
+            return openFile(filePath);
         } catch (IOException e) {
             throw new FileRetrievalException("Could not retrieve file: " + storagePath, e);
         }
@@ -77,10 +75,11 @@ public class LocalVideoStorageService implements VideoStorageService {
             }
 
             Files.deleteIfExists(filePath);
-        } catch (FileDeletionException e) {
-            throw e;
         } catch (IOException e) {
             throw new FileDeletionException("Could not delete file: " + storagePath, e);
         }
     }
-}
+
+    protected InputStream openFile(Path path) throws IOException {
+        return Files.newInputStream(path);
+    }}

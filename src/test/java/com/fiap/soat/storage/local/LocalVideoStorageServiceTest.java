@@ -73,16 +73,16 @@ class LocalVideoStorageServiceTest {
     }
 
     @Test
-    void shouldThrowFileStorageExceptionWhenCopyFails() {
-        InputStream brokenStream = new InputStream() {
+    void shouldThrowFileStorageExceptionWhenCopyFails() throws Exception {
+        try (InputStream brokenStream = new InputStream() {
             @Override
             public int read() throws IOException {
                 throw new IOException("fail");
             }
-        };
-
-        assertThrows(FileStorageException.class,
-                () -> storageService.store(brokenStream, "file.txt"));
+        }) {
+            assertThrows(FileStorageException.class,
+                    () -> storageService.store(brokenStream, "file.txt"));
+        }
     }
 
     @Test
@@ -110,12 +110,23 @@ class LocalVideoStorageServiceTest {
     }
 
     @Test
-    void shouldThrowFileRetrievalExceptionWhenNewInputStreamFails() throws Exception {
-        Path dir = tempDir.resolve("directory");
-        Files.createDirectory(dir);
+    void shouldThrowFileRetrievalExceptionWhenIOExceptionOccurs() throws Exception {
+
+        Path file = tempDir.resolve("file.txt");
+        Files.createFile(file);
+
+        String filePath = file.toString();
+
+        LocalVideoStorageService service =
+                new LocalVideoStorageService(tempDir) {
+                    @Override
+                    protected InputStream openFile(Path path) throws IOException {
+                        throw new IOException("forced error");
+                    }
+                };
 
         assertThrows(FileRetrievalException.class,
-                () -> storageService.retrieve(dir.toString()));
+                () -> service.retrieve(filePath));
     }
 
     @Test
@@ -139,8 +150,10 @@ class LocalVideoStorageServiceTest {
         Path outsidePath = Paths.get(System.getProperty("java.io.tmpdir"))
                 .resolve("outside.txt");
 
+        String outsidePathStr = outsidePath.toString();
+
         assertThrows(FileDeletionException.class,
-                () -> storageService.delete(outsidePath.toString()));
+                () -> storageService.delete(outsidePathStr));
     }
 
     @Test
@@ -149,7 +162,9 @@ class LocalVideoStorageServiceTest {
         Files.createDirectory(dir);
         Files.write(dir.resolve("file.txt"), "content".getBytes());
 
+        String dirPath = dir.toString();
+
         assertThrows(FileDeletionException.class,
-                () -> storageService.delete(dir.toString()));
+                () -> storageService.delete(dirPath));
     }
 }
