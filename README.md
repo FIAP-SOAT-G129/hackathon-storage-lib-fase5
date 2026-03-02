@@ -4,8 +4,8 @@
 ![Maven](https://img.shields.io/badge/Maven-3.9.x-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
 ![JUnit 5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
 
-![Coverage](../hackathon-storage-lib-fase5/.github/badges/jacoco.svg)
-![Branches](../hackathon-storage-lib-fase5/.github/badges/branches.svg)
+![Coverage](.github/badges/jacoco.svg)
+![Branches](.github/badges/branches.svg)
 
 Esta é a **Storage Lib**, uma biblioteca Java pura desenvolvida para o
 **Hackathon SOAT (Fase 5)**. Ela fornece uma camada de abstração robusta
