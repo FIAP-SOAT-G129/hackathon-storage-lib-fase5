@@ -1,93 +1,69 @@
-# hackathon-storage-lib
+# 📦 Storage Lib — Abstração e Segurança de Arquivos
 
-Biblioteca Java para compartilhamento de logica de storage local entre microsservicos.
+![Java 17](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-3.9.x-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+![JUnit 5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
 
-## Requisitos
+![Coverage](../hackathon-storage-lib/.github/badges/jacoco.svg)
+![Branches](../hackathon-storage-lib/.github/badges/branches.svg)
 
-- Java 17+
-- Maven 3.9+
+Esta é a **Storage Lib**, uma biblioteca Java pura desenvolvida para o
+**Hackathon SOAT (Fase 5)**. Ela fornece uma camada de abstração robusta
+para operações de I/O, garantindo que o armazenamento de vídeos e
+arquivos ZIP em microserviços seja padronizado, seguro e independente de
+infraestrutura.
 
-## Build
+---
 
-```bash
-mvn clean test
-```
+## 🧾 Objetivo do Projeto
 
-## Publicacao Maven
+Centralizar a lógica de persistência e recuperação de arquivos,
+fornecendo validações de domínio rigorosas e proteção nativa contra
+vulnerabilidades de sistema de arquivos (como Path Traversal).\
+Projetada para ser acoplada em microserviços Spring Boot ou aplicações
+Java puras que necessitam de uma gestão de arquivos organizada e segura.
 
-A lib esta configurada para publicar no GitHub Packages Maven Registry via `mvn deploy`.
+---
 
-### Configuracoes do repositorio
+## 🚀 Tecnologias Utilizadas
 
-1. Em `Settings > Actions > General`, habilite permissao de escrita para `GITHUB_TOKEN`.
-2. Em `Settings > Packages`, permita publicacao para o repositorio.
+-   **Java 17**
+-   **Maven**
+-   **JUnit 5**
+-   **Mockito**
 
-### Pipeline de publicacao
+---
 
-- Arquivo: `.github/workflows/publish.yml`
-- Trigger: push de tag no formato `v*` (exemplo: `v1.0.0`)
-- Publicacao: executa `mvn clean deploy`
+## ⚙️ Como Utilizar
 
-Exemplo de release:
+### ✅ Instalação Maven
 
-```bash
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-### Dependencia nos microsservicos
-
-```xml
+``` xml
 <dependency>
-    <groupId>br.com.fiap</groupId>
-    <artifactId>hackathon-storage-lib</artifactId>
+    <groupId>com.fiap.soat</groupId>
+    <artifactId>storage-lib</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
 
-Se quiser usar snapshots:
+------------------------------------------------------------------------
 
-```xml
-<dependency>
-    <groupId>br.com.fiap</groupId>
-    <artifactId>hackathon-storage-lib</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
-</dependency>
+## 🧪 Executando os testes
+
+``` bash
+mvn test
+mvn clean verify
 ```
 
-## Como usar
+------------------------------------------------------------------------
 
-### 1. Configure como bean no Spring
+## 👥 Equipe
 
-```java
-import br.com.fiap.storage.VideoStorageService;
-import br.com.fiap.storage.local.LocalVideoStorageService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+Desenvolvido pela equipe FIAP SOAT - G129 para o Hackathon de
+Arquitetura de Software.
 
-@Configuration
-public class StorageConfig {
+------------------------------------------------------------------------
 
-    @Bean
-    public VideoStorageService videoStorageService(
-            @Value("${app.storage.local-path:/tmp/videos}") String storageBaseDir) {
-        return new LocalVideoStorageService(storageBaseDir);
-    }
-}
-```
+## 📄 Licença
 
-### 2. Interface disponivel
-
-```java
-public interface VideoStorageService {
-    String store(InputStream inputStream, String fileName);
-    InputStream retrieve(String storagePath);
-}
-```
-
-## Excecoes
-
-- `FileStorageException`
-- `FileRetrievalException`
-- `StoredFileNotFoundException`
+Este projeto é parte integrante do material acadêmico da FIAP.

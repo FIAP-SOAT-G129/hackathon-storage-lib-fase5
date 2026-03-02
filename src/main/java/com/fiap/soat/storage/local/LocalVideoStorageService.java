@@ -1,10 +1,10 @@
-package br.com.fiap.storage.local;
+package com.fiap.soat.storage.local;
 
-import br.com.fiap.storage.VideoStorageService;
-import br.com.fiap.storage.exception.FileDeletionException;
-import br.com.fiap.storage.exception.FileRetrievalException;
-import br.com.fiap.storage.exception.FileStorageException;
-import br.com.fiap.storage.exception.StoredFileNotFoundException;
+import com.fiap.soat.storage.VideoStorageService;
+import com.fiap.soat.storage.exception.FileDeletionException;
+import com.fiap.soat.storage.exception.FileRetrievalException;
+import com.fiap.soat.storage.exception.FileStorageException;
+import com.fiap.soat.storage.exception.StoredFileNotFoundException;
 
 import java.io.IOException;
 import java.io.InputStream;

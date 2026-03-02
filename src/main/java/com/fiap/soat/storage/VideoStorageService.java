@@ -1,8 +1,8 @@
-package br.com.fiap.storage;
+package com.fiap.soat.storage;
 
-import br.com.fiap.storage.exception.FileRetrievalException;
-import br.com.fiap.storage.exception.FileStorageException;
-import br.com.fiap.storage.exception.StoredFileNotFoundException;
+import com.fiap.soat.storage.exception.FileRetrievalException;
+import com.fiap.soat.storage.exception.FileStorageException;
+import com.fiap.soat.storage.exception.StoredFileNotFoundException;
 
 import java.io.InputStream;
 

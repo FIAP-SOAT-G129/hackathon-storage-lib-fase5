@@ -1,4 +1,4 @@
-package br.com.fiap.storage.exception;
+package com.fiap.soat.storage.exception;
 
 public class FileDeletionException extends RuntimeException {
 
